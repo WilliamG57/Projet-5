@@ -3,7 +3,7 @@ fetch(url)
 .then(function(response) {
     return response.json();
   })
-.then( function(response) {
+.then(function(response) {
     console.log(response);
     for (let product of response) {
         afficherProduit(product);
