@@ -16,15 +16,17 @@ fetch(`http://localhost:3000/api/products/${id}`)
 function displayProduct(product) {
     const div = document.getElementsByClassName("item__img");
     const image = document.createElement("img");
-    image.src = product.imgUrl;
+    div[0].appendChild(image);
+    image.src = product.imageUrl;
     image.alt = product.altTxt;
-    div.appendChild(image);
     const h1 = document.getElementById("title");
-    title = product.name;
+    h1.innerText = product.name;
     const price = document.getElementById("price");
-    price = product.price;
+    price.innerText = product.price;
     const description = document.getElementById("description");
-    description = product.description;
-    console.log(description);
-    const select = document.getElementById("colors").innerText = colors;
+    description.innerText = product.description;
+    const select = document.getElementById("colors").value
+    select[0].appendChild(colors);
+    const option = document.createElement("option").value
+    option.innerText = product.colors;
 }
