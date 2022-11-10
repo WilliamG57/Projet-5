@@ -33,3 +33,31 @@ function displayProduct(product) {
         option.value = color;
     }
 }
+    const bouton = document.getElementById("addToCart");
+    if (bouton !== null) {
+        bouton.addEventListener("click", evt => {
+            let quantity = document.getElementById("quantity").value;
+            let color = document.getElementById ("colors").value;
+            console.log({quantity, color})
+            if (!color || !quantity) {
+                alert("Veuillez sélectionner une couleur et une quantité");
+            }
+            if (quantity < 1 || quantity > 100){
+                alert("Veuillez sélectionner une quantité entre 1 et 100");
+            }
+            let productCart = []
+            if (localStorage.getItem("cart")!== null){
+                productCart = JSON.parse(localStorage.getItem("cart"))
+            }
+            let data = {
+                color:color,
+                quantity:Number(quantity),
+                id:id
+            }
+            console.log(data)
+            if (data) {
+                productCart.push(data)
+            }
+            localStorage.setItem("cart",JSON.stringify(productCart));
+        })
+    }
