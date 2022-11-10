@@ -45,6 +45,7 @@ function displayProduct(product) {
             if (quantity < 1 || quantity > 100){
                 alert("Veuillez sélectionner une quantité entre 1 et 100");
             }
+            else {
             let productCart = []
             if (localStorage.getItem("cart")!== null){
                 productCart = JSON.parse(localStorage.getItem("cart"))
@@ -59,5 +60,5 @@ function displayProduct(product) {
                 productCart.push(data)
             }
             localStorage.setItem("cart",JSON.stringify(productCart));
-        })
+        }})
     }
