@@ -14,18 +14,20 @@ fetch(`http://localhost:3000/api/products/${id}`)
 })
 
 function displayProduct(product) {
+    //Mise en place des constante pour se placer dans l'html
     const div = document.getElementsByClassName("item__img");
     const image = document.createElement("img");
+    const h1 = document.getElementById("title")
+    const price = document.getElementById("price")
+    const description = document.getElementById("description")
+    const select = document.getElementById("colors");
+
     div[0].appendChild(image)
     image.src = product.imageUrl
     image.alt = product.altTxt;
-    const h1 = document.getElementById("title")
     h1.innerText = product.name;
-    const price = document.getElementById("price")
     price.innerText = product.price;
-    const description = document.getElementById("description")
     description.innerText = product.description;
-    const select = document.getElementById("colors");
     for (let color of product.colors) {
         const option = document.createElement("option")
         select.appendChild(option)

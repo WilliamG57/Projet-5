@@ -6,7 +6,6 @@ if (getLocal == null || getLocal.length == 0) {
     const emptyLocal = document.querySelector("h1")
     emptyLocal.innerHTML = emptyLocal.innerText + " est vide";
 } else {
-    console.log(getLocal)
 
     //Insertion du localStorage sur la page 
     let items = getLocal;
@@ -19,7 +18,6 @@ if (getLocal == null || getLocal.length == 0) {
         fetch(url)
             .then((response) => response.json())
             .then((cart) => {
-                console.log(cart)
                 document.querySelector("#cart__items").innerHTML +=
                     `<article class="cart__item" data-id="${id}" data-color="${color}">
                             <div class="cart__item__img">
@@ -73,47 +71,134 @@ if (getLocal == null || getLocal.length == 0) {
     }
 }
 
-//Validation du formulaire
+//-------------Validation du formulaire
 
-const order = document.querySelector(".cart__order");
 
-let patternFirstName = document.querySelector("#firstName");
-patternFirstName.setAttribute("pattern", "[a-zA-Z-éèà]*");
+// Mise en plus des constantes pour le formulaire
 
-let patternLastName = document.querySelector("#lastName");
-patternLastName.setAttribute("pattern", "[a-zA-Z-éèà]*");
+const order = document.getElementById("order");
+const postUrl = `http://localhost:3000/api/products/order/`
+const prenom = document.getElementById("firstName");
+const nom = document.getElementById("lastName");
+const adresse = document.getElementById("address")
+const ville = document.getElementById("city");
+const mail = document.getElementById("email");
+const regexCommun = /[a-zA-Z-éèà]/;
+const regexAddress = /[0-9a-zA-Z-éèà]/;
+const regexmail = /^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$/;
 
-let patternAddress = document.querySelector("#address")
-patternAddress.setAttribute("pattern", "[0-9 a-zA-Z-éèà]*");
+//Test des regex
+const errorFirstName = document.getElementById("firstNameErrorMsg");
+function validateFirstName(prenom) {
+    if (regexCommun.test(prenom) == false) {
+        return false;
+    } else {
+        errorFirstName.innerHTML = null;
+        return true;
+    }
+}
 
-let patternCity = document.querySelector("#city");
-patternCity.setAttribute("pattern", "[a-zA-Z-éèà]*");
+const errorLastName = document.getElementById("lastNameErrorMsg");
+function validateLastName(nom) {
+    if (regexCommun.test(nom) == false) {
+        return false; 
+    } else {
+        errorLastName.innerHTML = null;
+        return true;
+    }
+}
 
-let patternEmail = document.querySelector("#email");
-patternEmail.setAttribute("pattern", "/^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/");
+const errorAddress = document.getElementById("addressErrorMsg");
+function validateAddress(adresse) {
+    if (regexAddress.test(adresse) == false) {
+        return false; 
+    } else {
+        errorAddress.innerHTML = null;
+        return true;
+    }
+}
 
+const errorCity = document.getElementById("cityErrorMsg");
+function validateCity(ville) {
+    if (regexCommun.test(ville) == false) {
+        return false;
+    } else {
+        errorCity.innerHTML = null;
+        return true;
+    }
+}
+
+const errorEmail = document.getElementById("emailErrorMsg");
+function validateEmail(mail) {
+    if (regexmail.test(mail) == false) {
+        return false;
+    } else {
+        errorEmail.innerHTML = null;
+        return true;
+    }
+}
+
+//Evenement au click "commander"
 order.addEventListener("click", e => {
     e.preventDefault();
-    let contact = {
-        firstName : document.getElementById("firstName").value,
-        lastName : document.getElementById("lastName").value,
-        address : document.getElementById("address").value,
-        city : document.getElementById("city").value,
-        email : document.getElementById("email").value,
-    };
+
+    let firstName = validateFirstName(prenom.value);
+    let lastName = validateLastName(nom.value);
+    let address = validateAddress(adresse.value)
+    let city = validateCity(ville.value)
+    let email = validateEmail(mail.value);
+    const contact = {
+        firstName: prenom.value,
+        lastName: nom.value,
+        address: adresse.value,
+        city: ville.value,
+        email: mail.value
+    }
+
+    if (
+        firstName == false ||
+        lastName == false ||
+        address == false ||
+        city == false ||
+        mail == false
+    ) {
+        if (firstName == false) {
+            errorFirstName.innerHTML = "Entrez un prénom valide";
+        }
+        if (lastName == false) {
+            errorLastName.innerHTML = "Entrez un nom valide";
+        }
+        if (address == false) {
+            errorAddress.innerHTML = "Entrez une addresse valide";
+        }
+        if (city == false) {
+            errorCity.innerHTML = "Entrez une ville valide";
+        }
+        if (email == false) {
+            errorEmail.innerHTML = "Entrez un email valide";
+        }
+        return;
+    }
     let productsId = [];
     if (getLocal !== null) {
         for (let i = 0; i < getLocal.length; i++) {
-            productsId.push(getLocal[i].id);
-        }
-    }
-    if (
-        regexName.test(contact.firstName) == true &&
-        regexName.test(contact.lastName) == true &&
-        regexLocation.test(contact.address) == true &&
-        regexLocation.test(contact.city) == true &&
-        regexEmail.test(contect.email) == true
-    ) {
-        
-    }
+            productsId.push(getLocal[i].id)
+        };
+    };
+    const send = {
+        contact,
+        productsId,
+    };
+
+    //Envoi dans le localstorage du panier
+    localStorage.setItem("send", JSON.stringify(send))
+    fetch(postUrl, {
+        method: "POST",
+        headers: {
+            "Content-Type" : "application/json",
+        },
+        body: send,
+    })
+
+console.log(send)
 })
