@@ -3,7 +3,7 @@ const getLocal = JSON.parse(localStorage.getItem("cart"));
 
 //Gestion du panier si il est vide//
 if (getLocal == null || getLocal.length == 0) {
-    const emptyLocal = document.querySelector("h1")
+    const emptyLocal = document.querySelector("h1");
     emptyLocal.innerHTML = emptyLocal.innerText + " est vide";
 } else {
 
@@ -11,10 +11,10 @@ if (getLocal == null || getLocal.length == 0) {
     let items = getLocal;
     let price = 0;
     for (i = 0; i < items.length; i++) {
-        let id = items[i].id
-        let color = items[i].color
-        let qty = items[i].quantity
-        let url = `http://localhost:3000/api/products/${id}`
+        let id = items[i].id;
+        let color = items[i].color;
+        let qty = items[i].quantity;
+        let url = `http://localhost:3000/api/products/${id}`;
         fetch(url)
             .then((response) => response.json())
             .then((cart) => {
@@ -40,6 +40,7 @@ if (getLocal == null || getLocal.length == 0) {
                                 </div>
                             </div>
                         </article>`;
+
                 // Modifier quantité
                 let inputs = document.querySelectorAll(".itemQuantity");
                 inputs.forEach((qty, m) => {
@@ -64,8 +65,8 @@ if (getLocal == null || getLocal.length == 0) {
                 })
 
                 //Calcul du prix total//
-                price += cart.price * qty
-                document.getElementById("totalPrice").innerHTML = price
+                price += cart.price * qty;
+                document.getElementById("totalPrice").innerHTML = price;
             }
             )
     }
@@ -77,14 +78,14 @@ if (getLocal == null || getLocal.length == 0) {
 // Mise en place des constantes pour le formulaire
 
 const order = document.getElementById("order");
-const postUrl = `http://localhost:3000/api/products/order/`
+const postUrl = `http://localhost:3000/api/products/order/`;
 const prenom = document.getElementById("firstName");
 const nom = document.getElementById("lastName");
-const adresse = document.getElementById("address")
+const adresse = document.getElementById("address");
 const ville = document.getElementById("city");
 const mail = document.getElementById("email");
 const regexCommun = /^[a-zA-Z-éèà]{2,31}$/;
-const regexAddress = /[0-9a-zA-Z-éèà]/;
+const regexAddress = /^[0-9a-zA-Z-éèà]+\s[a-zA-Z-éèà]+\s[a-zA-Z-éèà]{2,31}$/;
 const regexmail = /^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$/;
 
 //Test des regex
@@ -139,11 +140,10 @@ function validateEmail(mail) {
 }
 
 //Evenement au click "commander"
-
 order.addEventListener("click", e => {
     e.preventDefault();
     if (localStorage.getItem("cart") == null) {
-        return alert("Le panier est vide")
+        return alert("Le panier est vide");
     }
 
     let firstName = validateFirstName(prenom.value);
@@ -160,7 +160,6 @@ order.addEventListener("click", e => {
     };
 
 // Retour en cas de non validation du formulaire
-
     if (
         firstName == false ||
         lastName == false ||
@@ -188,9 +187,9 @@ order.addEventListener("click", e => {
     let productsId = [];
     if (getLocal !== null) {
         for (let i = 0; i < getLocal.length; i++) {
-            productsId.push(getLocal[i].id)
-        };
-    };
+            productsId.push(getLocal[i].id);
+        }
+    }
     const send = {
         contact: contact, 
         products: productsId

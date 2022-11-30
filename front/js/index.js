@@ -8,6 +8,7 @@ fetch(url)
         afficherProduit(product);
     }
 })
+
 //Affichage des produits sur la page index
 function afficherProduit(produit) {
     const section = document.getElementById("items");

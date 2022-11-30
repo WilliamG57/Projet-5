@@ -1,5 +1,5 @@
-let productId = "./product.html?id="
-let url = new URL (window.location.href);
+let productId = "./product.html?id=";
+let url = new URL(window.location.href);
 let id = url.searchParams.get("id");
 
 
@@ -20,16 +20,16 @@ function displayProduct(product) {
     const description = document.getElementById("description");
     const select = document.getElementById("colors");
 
-    div[0].appendChild(image)
-    image.src = product.imageUrl
+    div[0].appendChild(image);
+    image.src = product.imageUrl;
     image.alt = product.altTxt;
     h1.innerText = product.name;
     price.innerText = product.price;
     description.innerText = product.description;
     for (let color of product.colors) {
-        const option = document.createElement("option")
-        select.appendChild(option)
-        option.innerText = color
+        const option = document.createElement("option");
+        select.appendChild(option);
+        option.innerText = color;
         option.value = color;
     }
 }
@@ -37,7 +37,7 @@ function displayProduct(product) {
     if (bouton !== null) {
         bouton.addEventListener("click", evt => {
             let quantity = document.getElementById("quantity").value;
-            let color = document.getElementById ("colors").value;
+            let color = document.getElementById("colors").value;
             if (!color || !quantity) {
                 alert("Veuillez sélectionner une couleur et une quantité");
             }
@@ -55,7 +55,7 @@ function displayProduct(product) {
                 id:id
             }
             if (data) {
-                productCart.push(data)
+                productCart.push(data);
             }
             localStorage.setItem("cart",JSON.stringify(productCart));
         }})
