@@ -74,7 +74,7 @@ if (getLocal == null || getLocal.length == 0) {
 //-------------Validation du formulaire
 
 
-// Mise en plus des constantes pour le formulaire
+// Mise en place des constantes pour le formulaire
 
 const order = document.getElementById("order");
 const postUrl = `http://localhost:3000/api/products/order/`
@@ -83,7 +83,7 @@ const nom = document.getElementById("lastName");
 const adresse = document.getElementById("address")
 const ville = document.getElementById("city");
 const mail = document.getElementById("email");
-const regexCommun = /[a-zA-Z-éèà]/;
+const regexCommun = /^[a-zA-Z-éèà]{2,31}$/;
 const regexAddress = /[0-9a-zA-Z-éèà]/;
 const regexmail = /^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$/;
 
@@ -139,13 +139,17 @@ function validateEmail(mail) {
 }
 
 //Evenement au click "commander"
+
 order.addEventListener("click", e => {
     e.preventDefault();
+    if (localStorage.getItem("cart") == null) {
+        return alert("Le panier est vide")
+    }
 
     let firstName = validateFirstName(prenom.value);
     let lastName = validateLastName(nom.value);
-    let address = validateAddress(adresse.value)
-    let city = validateCity(ville.value)
+    let address = validateAddress(adresse.value);
+    let city = validateCity(ville.value);
     let email = validateEmail(mail.value);
     const contact = {
         firstName: prenom.value,
@@ -153,7 +157,9 @@ order.addEventListener("click", e => {
         address: adresse.value,
         city: ville.value,
         email: mail.value
-    }
+    };
+
+// Retour en cas de non validation du formulaire
 
     if (
         firstName == false ||
@@ -186,19 +192,22 @@ order.addEventListener("click", e => {
         };
     };
     const send = {
-        contact,
-        productsId,
+        contact: contact, 
+        products: productsId
     };
 
     //Envoi dans le localstorage du panier
-    localStorage.setItem("send", JSON.stringify(send))
+
     fetch(postUrl, {
         method: "POST",
+        body: JSON.stringify(send),
         headers: {
-            "Content-Type" : "application/json",
-        },
-        body: send,
+            "Content-Type" : "application/json"
+        }
     })
-
-console.log(send)
+    .then((res) => res.json())
+    .then((data) => {
+        let confirmationUrl = "./confirmation.html?orderId=" + data.orderId;
+        window.location.href = confirmationUrl;
+    })
 })

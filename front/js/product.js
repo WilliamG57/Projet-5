@@ -1,7 +1,6 @@
 let productId = "./product.html?id="
 let url = new URL (window.location.href);
 let id = url.searchParams.get("id");
-console.log(id);
 
 
 fetch(`http://localhost:3000/api/products/${id}`)
@@ -9,17 +8,16 @@ fetch(`http://localhost:3000/api/products/${id}`)
     return response.json();
   })
 .then(function(response) {
-    console.log(response)
     displayProduct(response);
 })
 
 function displayProduct(product) {
-    //Mise en place des constante pour se placer dans l'html
+    //Mise en place des constantes pour se placer dans l'html
     const div = document.getElementsByClassName("item__img");
     const image = document.createElement("img");
-    const h1 = document.getElementById("title")
-    const price = document.getElementById("price")
-    const description = document.getElementById("description")
+    const h1 = document.getElementById("title");
+    const price = document.getElementById("price");
+    const description = document.getElementById("description");
     const select = document.getElementById("colors");
 
     div[0].appendChild(image)
@@ -40,7 +38,6 @@ function displayProduct(product) {
         bouton.addEventListener("click", evt => {
             let quantity = document.getElementById("quantity").value;
             let color = document.getElementById ("colors").value;
-            console.log({quantity, color})
             if (!color || !quantity) {
                 alert("Veuillez sélectionner une couleur et une quantité");
             }
@@ -57,7 +54,6 @@ function displayProduct(product) {
                 quantity:Number(quantity),
                 id:id
             }
-            console.log(data)
             if (data) {
                 productCart.push(data)
             }
