@@ -56,7 +56,10 @@ function displayProduct(product) {
             }
             if (data) {
                 productCart.push(data);
+                localStorage.setItem("cart",JSON.stringify(productCart));
+                if (window.confirm("Produit ajouté avec succès, cliqué sur ok pour consulter le panier")) {
+                    window.location.href = "./cart.html"
+                }
             }
-            localStorage.setItem("cart",JSON.stringify(productCart));
         }})
     }

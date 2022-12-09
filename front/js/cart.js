@@ -63,8 +63,14 @@ if (getLocal == null || getLocal.length == 0) {
                         window.location.reload();
                     })
                 })
+                //Calcul de la quantitée
+                let totalQty = 0
+                for (let article of getLocal) {
+                    totalQty += article.quantity;
+                }
+                document.getElementById("totalQuantity").innerHTML = totalQty;
 
-                //Calcul du prix total//
+                //Calcul du prix total
                 price += cart.price * qty;
                 document.getElementById("totalPrice").innerHTML = price;
             }
@@ -85,7 +91,7 @@ const adresse = document.getElementById("address");
 const ville = document.getElementById("city");
 const mail = document.getElementById("email");
 const regexCommun = /^[a-zA-Z-éèà]{2,31}$/;
-const regexAddress = /^[0-9a-zA-Z-éèà]+\s[a-zA-Z-éèà]+\s[a-zA-Z-éèà]{2,31}$/;
+const regexAddress = /^[0-9A-Za-z, ]{3,30}$/;
 const regexmail = /^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$/;
 
 //Test des regex
