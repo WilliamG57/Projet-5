@@ -1,15 +1,21 @@
-# Kanap #
+Projet 5 OpenClassrooms
 
-This is the front end and back end server for Project 5 of the Web Developer path.
+Kanap 🛒
 
-### Back end Prerequisites ###
+![image](https://user-images.githubusercontent.com/104788031/225006787-113f9d56-7ed8-467f-ba24-5a11c0ded9d8.png) ![image](https://user-images.githubusercontent.com/104788031/225006847-811ad76d-7ee4-4dee-a6d5-61521e5ac1a1.png)
 
-You will need to have Node and `npm` installed locally on your machine.
+Ce cinquième projet du parcours Développeur Frontend de OpenClassrooms repose sur la mise en place d'une application web de e-commerce.
 
-### Back end Installation ###
+Le site permettera la vente et la personnalisation de canapé par l'intermédiaire de l'application.
 
-Clone this repo. From the "back" folder of the project, run `npm install`. You 
-can then run the server with `node server`. 
-The server should run on `localhost` with default port `3000`. If the
-server runs on another port for any reason, this is printed to the
-console when the server starts, e.g. `Listening on port 3001`.
+
+Le projet repose sur les axes suivants :
+
+
+- L'interaction du site avec une API disponible en backend
+
+- La validation de données issues d'une source externe
+
+- La mise en place d'événements JavaScript
+
+- Le suivi de l'application via un plan de test
